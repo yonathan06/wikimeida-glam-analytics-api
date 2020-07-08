@@ -1,4 +1,4 @@
-# Contact Tracing API Service
+# Wikimedia GLAM Analytics API
 
 ## Set up Backend API
 

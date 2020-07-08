@@ -4,8 +4,8 @@ import { Unauthorized } from 'http-errors';
 import { FastifyInstance, FastifyRequest } from 'fastify';
 
 interface TokenData {
-  username: string,
-  glamId: string,
+  username: string;
+  glamId: string;
 }
 
 function verify(token: string, secret: string) {
@@ -17,12 +17,12 @@ function verify(token: string, secret: string) {
         resolve(decoded);
       }
     });
-  })
+  });
 }
 
 async function jwtPlugin(server: FastifyInstance) {
   const secret = process.env.JWT_SECRET;
-  
+
   async function authenticate(req: FastifyRequest) {
     try {
       const data = await verify(req.headers.authorization.replace(/^Bearer /, ''), secret);
@@ -38,7 +38,7 @@ async function jwtPlugin(server: FastifyInstance) {
   }
 
   async function sign(payload: TokenData) {
-    return jwt.sign(payload, secret, { expiresIn: '7d' })
+    return jwt.sign(payload, secret, { expiresIn: '7d' });
   }
 
   server.decorate('signJWT', sign);

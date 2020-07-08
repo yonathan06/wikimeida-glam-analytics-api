@@ -4,8 +4,8 @@ import fastify from 'fastify';
 import cors from 'fastify-cors';
 import now from 'fastify-now';
 import swagger from 'fastify-swagger';
-import jwt from "@lib/plugins/jwt";
-import pg from "@lib/plugins/pg";
+import jwt from '@lib/plugins/jwt';
+import pg from '@lib/plugins/pg';
 import { getPostgratorInstance } from '@lib/migration';
 
 // Load env vars
@@ -52,7 +52,7 @@ loadConfig();
     routesFolder: path.join(__dirname, './routes'),
   });
 
-  const address = await server.listen(+process.env.PORT);
+  await server.listen(+process.env.PORT);
 
   for (const signal of ['SIGINT', 'SIGTERM']) {
     process.on(signal, () =>
