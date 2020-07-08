@@ -1,0 +1,18 @@
+version: '3.6'
+
+services:
+  glams-analytics-db:
+    container_name: glams-analytics-db
+    image: postgres:12.3-alpine
+    environment:
+      - POSTGRES_USER=glams_api
+      - POSTGRES_PASSWORD=glams_api
+      - POSTGRES_DB=glams_api
+    ports:
+      - 5432:5432
+    volumes:
+      - glams-analytics-metadata:/var/lib/postgresql/data
+      
+volumes:
+  glams-analytics-metadata:
+    external: false
