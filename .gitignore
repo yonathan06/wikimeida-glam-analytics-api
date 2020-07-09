@@ -18,4 +18,4 @@ yarn-error.log*
 .nyc_output
 coverage
 
-.production.env
+production.env

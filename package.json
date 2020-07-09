@@ -37,6 +37,7 @@
   "homepage": "https://github.com/yonathan06/wikimeida-glam-analytics-api#readme",
   "dependencies": {
     "dotenv": "^8.2.0",
+    "env-schema": "^1.1.0",
     "fastify": "^3.0.0",
     "fastify-cors": "^4.0.0",
     "fastify-now": "^2.1.0",

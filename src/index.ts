@@ -52,7 +52,7 @@ loadConfig();
     routesFolder: path.join(__dirname, './routes'),
   });
 
-  await server.listen(+process.env.PORT);
+  await server.listen(+process.env.API_PORT, process.env.API_HOST);
 
   for (const signal of ['SIGINT', 'SIGTERM']) {
     process.on(signal, () =>
