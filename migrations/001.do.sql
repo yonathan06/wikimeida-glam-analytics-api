@@ -20,7 +20,6 @@ CREATE TABLE IF NOT EXISTS glams_items (
   id UUID PRIMARY KEY NOT NULL DEFAULT GEN_RANDOM_UUID(),
   glam_id UUID REFERENCES glams(id),
   name TEXT NOT NULL,
-  description TEXT,
   file_path TEXT NOT NULL,
   thumbnail_url TEXT NOT NULL,
   upload_date TIMESTAMPTZ NOT NULL,
