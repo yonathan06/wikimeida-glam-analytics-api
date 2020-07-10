@@ -8,7 +8,7 @@ export const GET: NowRequestHandler = async function () {
 GET.opts = {
   schema: {
     response: {
-      200: S.object().prop('hello', S.string().required())
-    }
-  }
-}
+      200: S.object().prop('hello', S.string().required()),
+    },
+  },
+};

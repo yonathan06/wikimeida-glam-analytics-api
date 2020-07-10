@@ -12,7 +12,40 @@ import { getPostgratorInstance } from '@lib/migration';
 import loadConfig from '@lib/config';
 loadConfig();
 
-(async function () {
+export async function startServer() {
+  const server = fastify({
+    logger: {
+      level: process.env.LOG_LEVEL,
+    },
+  });
+  server.register(cors, {
+    credentials: true,
+  });
+  if (process.env.NODE_ENV !== 'test') {
+    server.register(swagger, {
+      swagger: {
+        info: {
+          title: 'Wikimedia GLAM Analytics API',
+          description: 'api server wikimedia glam analytics',
+          version: '0.1',
+        },
+      },
+      exposeRoute: true,
+    });
+  }
+
+  server.register(jwt);
+  server.register(pg);
+
+  server.register(now, {
+    routesFolder: path.join(__dirname, './routes'),
+  });
+
+  await server.listen(+process.env.API_PORT, process.env.API_HOST);
+  return server;
+}
+
+async function spinProcess() {
   process.on('unhandledRejection', (err) => {
     console.error(err);
     process.exit(1);
@@ -28,38 +61,20 @@ loadConfig();
     process.exit(1);
   }
 
-  const server = fastify({ logger: true });
+  const server = await startServer();
 
-  server.register(cors, {
-    credentials: true,
-  });
-
-  server.register(swagger, {
-    swagger: {
-      info: {
-        title: 'Wikimedia GLAM Analytics API',
-        description: 'api server wikimedia glam analytics',
-        version: '0.1',
-      },
-    },
-    exposeRoute: true,
-  });
-
-  server.register(jwt);
-  server.register(pg);
-
-  server.register(now, {
-    routesFolder: path.join(__dirname, './routes'),
-  });
-
-  await server.listen(+process.env.API_PORT, process.env.API_HOST);
-
-  for (const signal of ['SIGINT', 'SIGTERM']) {
-    process.on(signal, () =>
-      server.close().then((err) => {
-        console.log(`close application on ${signal}`);
-        process.exit(err ? 1 : 0);
-      }),
-    );
+  if (process.env.NODE_ENV === 'production') {
+    for (const signal of ['SIGINT', 'SIGTERM']) {
+      process.on(signal, () =>
+        server.close().then((err) => {
+          console.log(`close application on ${signal}`);
+          process.exit(err ? 1 : 0);
+        }),
+      );
+    }
   }
-})();
+}
+
+if (process.env.NODE_ENV !== 'test') {
+  spinProcess();
+}
