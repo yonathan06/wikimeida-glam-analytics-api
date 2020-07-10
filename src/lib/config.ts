@@ -3,7 +3,6 @@ import envSchema from 'env-schema';
 import S from 'fluent-schema';
 
 export default function loadConfig(): void {
-
   const result = require('dotenv').config({
     path: path.join(__dirname, `../../${process.env.NODE_ENV ?? 'development'}.env`),
   });
@@ -25,5 +24,5 @@ export default function loadConfig(): void {
       .prop('DB_DATABASE', S.string().required())
       .prop('DB_SSL', S.string().required())
       .prop('JWT_SECRET', S.string().required()),
-  })
+  });
 }

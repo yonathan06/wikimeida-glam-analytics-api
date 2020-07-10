@@ -1,6 +1,6 @@
 import { FastifyInstance } from 'fastify';
 import { startServer } from '../../index';
-import { Glam } from '@lib/data-layer/glams';
+import Glam from '@lib/models/Glam';
 
 const MockMediaList = [
   {
