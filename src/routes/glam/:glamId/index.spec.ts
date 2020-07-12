@@ -1,14 +1,16 @@
 import { FastifyInstance } from 'fastify';
 import { createServer } from '../../../index';
-import { MockGlam } from '../../../test/__mock__/entities';
+import { newMockGlam } from '../../../test/__mock__/entities';
 
 describe('Glam resource', () => {
   let server: FastifyInstance;
+  const MockGlam = newMockGlam();
   beforeAll(async () => {
     server = await createServer();
   });
 
   afterAll(async () => {
+    await server.pg.pool.query(`DELETE FROM glams WHERE id = $1`, [MockGlam.id]);
     await server.pg.pool.query('DELETE FROM glams_items WHERE glam_id = $1', [MockGlam.id]);
     await server.close();
   });

@@ -1,8 +1,9 @@
 import { FastifyInstance } from 'fastify';
-import { createServer } from '../../index';
-import { MockMediaList, MockGlam } from '../__mock__/entities';
-describe('New GLAM basic flow', () => {
+import { createServer } from '../../../../index';
+import { MockMediaList, newMockGlam } from '../../../../test/__mock__/entities';
+describe('Glam items', () => {
   let server: FastifyInstance;
+  const MockGlam = newMockGlam();
   beforeAll(async () => {
     server = await createServer();
   });
@@ -29,14 +30,22 @@ describe('New GLAM basic flow', () => {
     results.forEach((result) => expect(result.rowCount).toBe(1));
   });
 
-  it('Should get GLAM data', async () => {
+  it('Should get GLAM items', async () => {
     const response = await server.inject({
       method: 'GET',
-      path: `/glam/${MockGlam.id}`,
+      path: `/glam/${MockGlam.id}/item`,
     });
     expect(response.statusCode).toBe(200);
-    const json = response.json();
-    expect(json.id).toBe(MockGlam.id);
-    expect(json.name).toBe(MockGlam.name);
+    const items = response.json();
+    expect(items.length).toBe(3);
+    MockMediaList.forEach((mockItem) => {
+      const item = items.find((i) => i.file_path === mockItem.filePath);
+      expect(item).toBeDefined();
+      expect(item.file_path).toEqual(mockItem.filePath);
+      expect(item.glam_id).toEqual(MockGlam.id);
+      expect(item.name).toEqual(mockItem.name);
+      expect(item.thumbnail_url).toEqual(mockItem.thumbnailURL);
+      expect(item.upload_date).toEqual(mockItem.uploadDate);
+    });
   });
 });
