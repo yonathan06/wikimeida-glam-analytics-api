@@ -12,7 +12,7 @@ import { getPostgratorInstance } from '@lib/migration';
 import loadConfig from '@lib/config';
 loadConfig();
 
-export async function startServer() {
+export async function createServer() {
   const server = fastify({
     logger: {
       level: process.env.LOG_LEVEL,
@@ -41,11 +41,11 @@ export async function startServer() {
     routesFolder: path.join(__dirname, './routes'),
   });
 
-  await server.listen(+process.env.API_PORT, process.env.API_HOST);
+  await server.ready();
   return server;
 }
 
-async function spinProcess() {
+async function startServer() {
   process.on('unhandledRejection', (err) => {
     console.error(err);
     process.exit(1);
@@ -61,7 +61,8 @@ async function spinProcess() {
     process.exit(1);
   }
 
-  const server = await startServer();
+  const server = await createServer();
+  await server.listen(+process.env.API_PORT, process.env.API_HOST);
 
   if (process.env.NODE_ENV === 'production') {
     for (const signal of ['SIGINT', 'SIGTERM']) {
@@ -76,5 +77,5 @@ async function spinProcess() {
 }
 
 if (process.env.NODE_ENV !== 'test') {
-  spinProcess();
+  startServer();
 }
