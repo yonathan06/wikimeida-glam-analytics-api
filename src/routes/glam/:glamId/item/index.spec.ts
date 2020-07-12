@@ -1,7 +1,9 @@
 import { FastifyInstance } from 'fastify';
 import { createServer } from '../../../../index';
 import { MockMediaList, newMockGlam } from '../../../../test/__mock__/entities';
-describe('Glam items', () => {
+import GlamMediaItem from '@lib/models/GlamMediaItem';
+
+describe('GET /glam/:glamId/item', () => {
   let server: FastifyInstance;
   const MockGlam = newMockGlam();
   beforeAll(async () => {
@@ -22,8 +24,15 @@ describe('Glam items', () => {
     expect(result.rowCount).toBe(1);
     const insertItems = MockMediaList.map((item) => {
       return server.pg.pool.query(
-        'INSERT INTO glams_items(file_path, glam_id, name, thumbnail_url, upload_date) VALUES($1, $2, $3, $4, $5)',
-        [item.filePath, MockGlam.id, item.name, item.thumbnailURL, item.uploadDate],
+        'INSERT INTO glams_items(file_path, glam_id, name, thumbnail_url, file_url, upload_date) VALUES($1, $2, $3, $4, $5, $6)',
+        [
+          item.file_path,
+          MockGlam.id,
+          item.name,
+          item.thumbnail_url,
+          item.file_url,
+          item.upload_date,
+        ],
       );
     });
     const results = await Promise.all(insertItems);
@@ -36,16 +45,81 @@ describe('Glam items', () => {
       path: `/glam/${MockGlam.id}/item`,
     });
     expect(response.statusCode).toBe(200);
-    const items = response.json();
+    const { items } = response.json();
     expect(items.length).toBe(3);
     MockMediaList.forEach((mockItem) => {
-      const item = items.find((i) => i.file_path === mockItem.filePath);
+      const item = items.find((i) => i.file_path === mockItem.file_path);
       expect(item).toBeDefined();
-      expect(item.file_path).toEqual(mockItem.filePath);
+      expect(item.file_path).toEqual(mockItem.file_path);
       expect(item.glam_id).toEqual(MockGlam.id);
       expect(item.name).toEqual(mockItem.name);
-      expect(item.thumbnail_url).toEqual(mockItem.thumbnailURL);
-      expect(item.upload_date).toEqual(mockItem.uploadDate);
+      expect(item.file_url).toEqual(mockItem.file_url);
+      expect(item.thumbnail_url).toEqual(mockItem.thumbnail_url);
+      expect(item.upload_date).toEqual(mockItem.upload_date);
+    });
+  });
+});
+
+describe('POST /glam/:glamId/item', () => {
+  let server: FastifyInstance;
+  const MockGlam = newMockGlam();
+  beforeAll(async () => {
+    server = await createServer();
+  });
+
+  afterAll(async () => {
+    await server.pg.pool.query('DELETE FROM glams_items WHERE glam_id = $1', [MockGlam.id]);
+    await server.pg.pool.query(`DELETE FROM glams WHERE id = $1`, [MockGlam.id]);
+    await server.close();
+  });
+
+  it('Should create new GLAM', async () => {
+    const result = await server.pg.pool.query('INSERT INTO glams(id, name) VALUES($1, $2)', [
+      MockGlam.id,
+      MockGlam.name,
+    ]);
+    expect(result.rowCount).toBe(1);
+  });
+
+  it('Should add new media items to GLAM', async () => {
+    const response = await server.inject({
+      method: 'POST',
+      path: `/glam/${MockGlam.id}/item`,
+      payload: {
+        items: MockMediaList,
+      },
+    });
+    expect(response.statusCode).toBe(201);
+    const { items } = response.json();
+    expect(items).toBeDefined();
+    MockMediaList.forEach((mockItem) => {
+      const item = items.find((i) => i.file_path === mockItem.file_path);
+      expect(item).toBeDefined();
+      expect(item.file_path).toEqual(mockItem.file_path);
+      expect(item.glam_id).toEqual(MockGlam.id);
+      expect(item.name).toEqual(mockItem.name);
+      expect(item.thumbnail_url).toEqual(mockItem.thumbnail_url);
+      expect(item.file_url).toEqual(mockItem.file_url);
+      expect(item.upload_date).toEqual(mockItem.upload_date);
+    });
+  });
+
+  it('Items should exist in DB', async () => {
+    const results = await server.pg.pool.query<GlamMediaItem>(
+      `SELECT * FROM glams_items WHERE glam_id = $1`,
+      [MockGlam.id],
+    );
+    expect(results.rowCount).toBe(MockMediaList.length);
+    const items = results.rows;
+    MockMediaList.forEach((mockItem) => {
+      const item = items.find((i) => i.file_path === mockItem.file_path);
+      expect(item).toBeDefined();
+      expect(item.file_path).toEqual(mockItem.file_path);
+      expect(item.glam_id).toEqual(MockGlam.id);
+      expect(item.name).toEqual(mockItem.name);
+      expect(item.file_url).toEqual(mockItem.file_url);
+      expect(item.thumbnail_url).toEqual(mockItem.thumbnail_url);
+      expect(item.upload_date).toEqual(new Date(mockItem.upload_date));
     });
   });
 });

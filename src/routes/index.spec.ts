@@ -1,7 +1,7 @@
 import { FastifyInstance } from 'fastify';
 import { createServer } from '../index';
 
-describe('Hello World', () => {
+describe('GET /', () => {
   let server: FastifyInstance;
   beforeAll(async () => {
     server = await createServer();

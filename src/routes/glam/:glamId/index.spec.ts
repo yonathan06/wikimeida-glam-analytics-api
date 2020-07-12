@@ -2,7 +2,7 @@ import { FastifyInstance } from 'fastify';
 import { createServer } from '../../../index';
 import { newMockGlam } from '../../../test/__mock__/entities';
 
-describe('Glam resource', () => {
+describe('GET /glam/:glamId', () => {
   let server: FastifyInstance;
   const MockGlam = newMockGlam();
   beforeAll(async () => {
