@@ -25,6 +25,8 @@ jobs:
       run: npm run lint
     - name: Start DB
       run: npm run db:up
+    - name: Build
+      run: npm run build
     - name: Migrate DB
       run: npm run db:migrate
     - name: Test
