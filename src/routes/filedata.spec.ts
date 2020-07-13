@@ -15,7 +15,7 @@ describe('GET /filedata', () => {
   });
 
   it('Receive file data', async () => {
-    const mockFileName = 'File%3A!%20Keep%20Clear%20(28157633618).jpg';
+    const mockFileName = 'File:! Smolensk Epitaph in Jasna Góra Lech Kaczynski Maria Kaczynska.jpg';
     const mockResponse = {
       batchcomplete: '',
       query: {
@@ -98,7 +98,8 @@ describe('GET /filedata', () => {
       title: 'File:! Smolensk Epitaph in Jasna Góra Lech Kaczynski Maria Kaczynska.jpg',
       file_path:
         '/wikipedia/commons/b/b5/%21_Smolensk_Epitaph_in_Jasna_G%C3%B3ra_Lech_Kaczynski_Maria_Kaczynska.jpg',
-      page_url: 'https://commons.wikimedia.org/wiki/File:! Keep Clear (28157633618).jpg',
+      page_url:
+        'https://commons.wikimedia.org/wiki/File:! Smolensk Epitaph in Jasna Góra Lech Kaczynski Maria Kaczynska.jpg',
       thumbnail_url:
         'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/%21_Smolensk_Epitaph_in_Jasna_G%C3%B3ra_Lech_Kaczynski_Maria_Kaczynska.jpg/250px-%21_Smolensk_Epitaph_in_Jasna_G%C3%B3ra_Lech_Kaczynski_Maria_Kaczynska.jpg',
       upload_date: '2020-02-16T22:22:33.000Z',
