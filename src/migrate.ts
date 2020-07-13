@@ -7,7 +7,6 @@ async function migrateSchema() {
   try {
     const postgrator = getPostgratorInstance();
     const result = await postgrator.migrate();
-
     if (result.length === 0) {
       console.log('No migrations run for schema "public". Already at the latest one.');
     }
