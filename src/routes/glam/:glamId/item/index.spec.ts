@@ -24,13 +24,13 @@ describe('GET /glam/:glamId/item', () => {
     expect(result.rowCount).toBe(1);
     const insertItems = MockMediaList.map((item) => {
       return server.pg.pool.query(
-        'INSERT INTO glams_items(file_path, glam_id, name, thumbnail_url, file_url, upload_date) VALUES($1, $2, $3, $4, $5, $6)',
+        'INSERT INTO glams_items(file_path, glam_id, title, thumbnail_url, page_url, upload_date) VALUES($1, $2, $3, $4, $5, $6)',
         [
           item.file_path,
           MockGlam.id,
-          item.name,
+          item.title,
           item.thumbnail_url,
-          item.file_url,
+          item.page_url,
           item.upload_date,
         ],
       );
@@ -52,8 +52,8 @@ describe('GET /glam/:glamId/item', () => {
       expect(item).toBeDefined();
       expect(item.file_path).toEqual(mockItem.file_path);
       expect(item.glam_id).toEqual(MockGlam.id);
-      expect(item.name).toEqual(mockItem.name);
-      expect(item.file_url).toEqual(mockItem.file_url);
+      expect(item.title).toEqual(mockItem.title);
+      expect(item.page_url).toEqual(mockItem.page_url);
       expect(item.thumbnail_url).toEqual(mockItem.thumbnail_url);
       expect(item.upload_date).toEqual(mockItem.upload_date);
     });
@@ -97,9 +97,9 @@ describe('POST /glam/:glamId/item', () => {
       expect(item).toBeDefined();
       expect(item.file_path).toEqual(mockItem.file_path);
       expect(item.glam_id).toEqual(MockGlam.id);
-      expect(item.name).toEqual(mockItem.name);
+      expect(item.title).toEqual(mockItem.title);
       expect(item.thumbnail_url).toEqual(mockItem.thumbnail_url);
-      expect(item.file_url).toEqual(mockItem.file_url);
+      expect(item.page_url).toEqual(mockItem.page_url);
       expect(item.upload_date).toEqual(mockItem.upload_date);
     });
   });
@@ -116,8 +116,8 @@ describe('POST /glam/:glamId/item', () => {
       expect(item).toBeDefined();
       expect(item.file_path).toEqual(mockItem.file_path);
       expect(item.glam_id).toEqual(MockGlam.id);
-      expect(item.name).toEqual(mockItem.name);
-      expect(item.file_url).toEqual(mockItem.file_url);
+      expect(item.title).toEqual(mockItem.title);
+      expect(item.page_url).toEqual(mockItem.page_url);
       expect(item.thumbnail_url).toEqual(mockItem.thumbnail_url);
       expect(item.upload_date).toEqual(new Date(mockItem.upload_date));
     });

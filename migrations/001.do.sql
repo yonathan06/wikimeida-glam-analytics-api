@@ -19,9 +19,9 @@ CREATE TABLE IF NOT EXISTS galms_users (
 CREATE TABLE IF NOT EXISTS glams_items (
   file_path TEXT NOT NULL,
   glam_id TEXT REFERENCES glams(id),
-  name TEXT NOT NULL,
+  title TEXT NOT NULL,
   thumbnail_url TEXT NOT NULL,
-  file_url TEXT NOT NULL,
+  page_url TEXT NOT NULL,
   upload_date TIMESTAMPTZ NOT NULL,
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
   updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),

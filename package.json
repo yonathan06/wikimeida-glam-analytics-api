@@ -38,6 +38,7 @@
   "homepage": "https://github.com/yonathan06/wikimeida-glam-analytics-api#readme",
   "dependencies": {
     "@nearform/sql": "^1.4.0",
+    "date-fns": "^2.14.0",
     "dotenv": "^8.2.0",
     "env-schema": "^1.1.0",
     "fastify": "^3.0.0",

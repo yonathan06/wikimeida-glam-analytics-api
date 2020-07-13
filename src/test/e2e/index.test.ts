@@ -23,13 +23,13 @@ describe('New GLAM basic flow', () => {
     expect(result.rowCount).toBe(1);
     const insertItems = MockMediaList.map((item) => {
       return server.pg.pool.query(
-        'INSERT INTO glams_items(file_path, glam_id, name, thumbnail_url, file_url, upload_date) VALUES($1, $2, $3, $4, $5, $6)',
+        'INSERT INTO glams_items(file_path, glam_id, title, thumbnail_url, page_url, upload_date) VALUES($1, $2, $3, $4, $5, $6)',
         [
           item.file_path,
           MockGlam.id,
-          item.name,
+          item.title,
           item.thumbnail_url,
-          item.file_url,
+          item.page_url,
           item.upload_date,
         ],
       );
@@ -62,7 +62,7 @@ describe('New GLAM basic flow', () => {
       expect(item).toBeDefined();
       expect(item.file_path).toEqual(mockItem.file_path);
       expect(item.glam_id).toEqual(MockGlam.id);
-      expect(item.name).toEqual(mockItem.name);
+      expect(item.title).toEqual(mockItem.title);
       expect(item.thumbnail_url).toEqual(mockItem.thumbnail_url);
       expect(item.upload_date).toEqual(mockItem.upload_date);
     });

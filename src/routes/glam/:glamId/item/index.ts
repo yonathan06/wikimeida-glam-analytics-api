@@ -12,10 +12,10 @@ export const GET: NowRequestHandler<{ Params: { glamId: string } }> = async func
 const getBaseItemSchema = () =>
   S.object()
     .prop('file_path', S.string().required())
-    .prop('file_url', S.string().required())
+    .prop('page_url', S.string().required())
     .prop('thumbnail_url', S.string().required())
     .prop('upload_date', S.string().required())
-    .prop('name', S.string().required());
+    .prop('title', S.string().required());
 
 const ItemsResponsePayload = S.object().prop(
   'items',
