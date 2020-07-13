@@ -16,7 +16,7 @@ export async function fetchFilesData(filesNames: string[]) {
     if (!/^File:/.test(name)) {
       name = `File:${name}`;
     }
-    return encodeURIComponent(name);
+    return name;
   });
   const queryParams = new URLSearchParams();
   queryParams.append('action', 'query');
