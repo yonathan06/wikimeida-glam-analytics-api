@@ -10,7 +10,6 @@ export const GET: NowRequestHandler<{ Querystring: { category: string; next?: st
   const data = await fetchFileListByCategory(category, next);
   const fileNames = data.query.categorymembers.map((item) => item.title);
   const filesData = await fetchFilesData(fileNames);
-  console.log('filesData', filesData);
   return {
     items: filesData,
     next: data.continue?.cmcontinue,
