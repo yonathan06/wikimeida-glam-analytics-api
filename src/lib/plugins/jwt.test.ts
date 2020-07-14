@@ -15,12 +15,12 @@ describe('jwt plugin', () => {
 
     it('Should have signToken in server', async (done) => {
       expect(server.signToken).toBeDefined();
-      const tokenData = { glamId: 'test-id', username: 'username' };
+      const tokenData = { glam_id: 'test-id', username: 'username' };
       const mockToken = await server.signToken(tokenData);
 
       jwt.verify(mockToken, process.env.JWT_SECRET, (err, decoded) => {
         expect(err).toBeNull();
-        expect(decoded.glamId).toBe(tokenData.glamId);
+        expect(decoded.glam_id).toBe(tokenData.glam_id);
         expect(decoded.username).toBe(tokenData.username);
         done();
       });

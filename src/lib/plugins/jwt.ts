@@ -1,12 +1,12 @@
 import fp from 'fastify-plugin';
 import jwt from 'jsonwebtoken';
 import { Unauthorized } from 'http-errors';
-import { FastifyInstance, FastifyRequest } from 'fastify';
+import { FastifyInstance } from 'fastify';
 import loadConfig from '@lib/config';
 loadConfig();
 interface TokenData {
   username: string;
-  glamId: string;
+  glam_id: string;
 }
 
 async function jwtPlugin(server: FastifyInstance) {
@@ -24,15 +24,15 @@ async function jwtPlugin(server: FastifyInstance) {
     });
   }
 
-  async function authenticate(req: FastifyRequest) {
+  async function authenticate() {
     try {
-      const data = await verify(req.headers.authorization.replace(/^Bearer /, ''), secret);
+      const data = await verify(this.headers.authorization.replace(/^Bearer /, ''), secret);
 
-      req.log.info(data, 'authorized user');
+      this.log.info(data, 'authorized user');
 
       return data;
     } catch (error) {
-      req.log.info(error, 'error verifying jwt');
+      this.log.info(error, 'error verifying jwt');
 
       throw new Unauthorized();
     }
@@ -60,7 +60,7 @@ declare module 'fastify' {
     signToken: (payload: TokenData) => Promise<string>;
   }
   interface FastifyRequest {
-    authenticate(): (req: this) => Promise<TokenData>;
+    authenticate: () => Promise<TokenData>;
   }
 }
 

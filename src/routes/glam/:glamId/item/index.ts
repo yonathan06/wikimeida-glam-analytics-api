@@ -2,6 +2,7 @@ import { NowRequestHandler } from 'fastify-now';
 import S from 'fluent-schema';
 import { getGlamItemsById, insertGlamItem } from '@lib/queries/glamsItems';
 import GlamMediaItem from '@lib/models/GlamMediaItem';
+import { Forbidden } from 'http-errors';
 
 export const GET: NowRequestHandler<{ Params: { glamId: string } }> = async function (req) {
   const { glamId } = req.params;
@@ -44,6 +45,10 @@ export const POST: NowRequestHandler<{
 }> = async function (req, res) {
   const { glamId } = req.params;
   const { items } = req.body;
+  const decodedToken = await req.authenticate();
+  if (glamId !== decodedToken.glam_id) {
+    throw new Forbidden();
+  }
   const insertItems = items.map((item) => this.pg.pool.query(insertGlamItem(glamId, item)));
   const results = await Promise.all(insertItems);
   res.status(201);

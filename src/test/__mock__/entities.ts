@@ -30,10 +30,20 @@ export const MockMediaList: Partial<GlamMediaItem>[] = [
   },
 ];
 
-export const newMockGlam = (): Partial<Glam> => {
-  const name = faker.company.companyName();
-  return {
-    id: faker.helpers.slugify(name),
-    name,
-  };
-};
+export class MockGlam {
+  name: string;
+  id: string;
+  constructor() {
+    this.name = faker.company.companyName();
+    this.id = faker.helpers.slugify(this.name);
+  }
+}
+
+export class MockUser {
+  username: string;
+  password: string;
+  constructor() {
+    this.username = faker.internet.userName();
+    this.password = faker.internet.password();
+  }
+}
