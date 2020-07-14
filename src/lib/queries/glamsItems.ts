@@ -8,3 +8,6 @@ export const insertGlamItem = (glamId: string, item: Partial<GlamMediaItem>) =>
   SQL`INSERT INTO glams_items (file_path, glam_id, title, thumbnail_url, page_url, upload_date) 
       VALUES (${item.file_path}, ${glamId}, ${item.title}, ${item.thumbnail_url}, ${item.page_url}, ${item.upload_date})
       RETURNING *`;
+
+export const deleteGlamItem = (glamId: string, file_path: string) =>
+  SQL`DELETE FROM glams_items WHERE glam_id=${glamId} AND file_path=${file_path}`;
