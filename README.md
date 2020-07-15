@@ -1,8 +1,8 @@
 # Wikimedia GLAM Analytics API
 
 ![ci badge](https://github.com/yonathan06/wikimeida-glam-analytics-api/workflows/CI/badge.svg)
-![license badge](https://img.shields.io/github/license/yonathan06/wikimeida-glam-analytics-api)
 [![Coverage Status](https://coveralls.io/repos/github/yonathan06/wikimeida-glam-analytics-api/badge.svg)](https://coveralls.io/github/yonathan06/wikimeida-glam-analytics-api)
+[![Sync Vulnerabilities Status](https://app.snyk.io/test/github/yonathan06/wikimeida-glam-analytics-api/badge.svg)](https://snyk.io/test/github/yonathan06/wikimeida-glam-analytics-api)
 
 ## Set up Backend API
 
