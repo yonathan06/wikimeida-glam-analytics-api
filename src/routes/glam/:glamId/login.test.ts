@@ -13,6 +13,7 @@ describe('POST /glam/:glamId/login', () => {
 
   afterAll(async () => {
     await server.pg.pool.query(`DELETE FROM glams WHERE id = $1`, [mockGlam.id]);
+    await server.pg.pool.query(`DELETE FROM glams_users WHERE glam_id = $1`, [mockGlam.id]);
     await server.close();
   });
 
