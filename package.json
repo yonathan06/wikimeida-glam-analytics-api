@@ -51,7 +51,7 @@
     "http-errors": "^1.8.0",
     "jsonwebtoken": "^8.5.1",
     "node-fetch": "^2.6.0",
-    "pg": "^8.2.2",
+    "pg": "^8.3.0",
     "postgrator": "^4.0.1"
   },
   "devDependencies": {
