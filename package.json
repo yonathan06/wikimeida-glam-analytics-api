@@ -50,7 +50,7 @@
     "fluent-schema": "^1.0.4",
     "http-errors": "^1.8.0",
     "jsonwebtoken": "^8.5.1",
-    "node-fetch": "^2.6.0",
+    "node-fetch": "^2.6.1",
     "pg": "^8.2.2",
     "postgrator": "^4.0.1"
   },
